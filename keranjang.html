@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Keranjang - E-Commerce</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+    }
+    nav {
+      background-color: #333;
+      padding: 10px 20px;
+      color: #fff;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    nav h1 {
+      margin: 0;
+      font-size: 24px;
+    }
+    nav ul {
+      list-style: none;
+      display: flex;
+      margin: 0;
+      padding: 0;
+    }
+    nav ul li {
+      margin-left: 20px;
+    }
+    nav ul li a {
+      color: #fff;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    nav ul li a:hover {
+      text-decoration: underline;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 40px auto;
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    h2 {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    table th, table td {
+      padding: 12px;
+      border-bottom: 1px solid #ddd;
+      text-align: center;
+    }
+    table th {
+      background-color: #f2f2f2;
+    }
+
+    .total {
+      text-align: right;
+      font-size: 18px;
+      margin-top: 20px;
+      font-weight: bold;
+    }
+
+    .btn-remove {
+      background-color: #e74c3c;
+      color: white;
+      border: none;
+      padding: 6px 12px;
+      cursor: pointer;
+      border-radius: 5px;
+      font-weight: bold;
+    }
+    .btn-remove:hover {
+      background-color: #c0392b;
+    }
+
+    .btn-checkout {
+      margin-top: 20px;
+      background-color: #27ae60;
+      color: white;
+      border: none;
+      padding: 12px 25px;
+      font-size: 16px;
+      cursor: pointer;
+      border-radius: 5px;
+      font-weight: bold;
+      float: right;
+    }
+    .btn-checkout:hover {
+      background-color: #219150;
+    }
+
+    .empty-cart {
+      text-align: center;
+      font-size: 18px;
+      color: #666;
+      margin-top: 50px;
+    }
+
+    nav {
+      background: linear-gradient(90deg, #5a2d82, #7b4eff);
+      padding: 18px 40px;
+      color: #fff;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 5px 15px rgba(123,78,255,0.5);
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      font-size: 20px;
+    }
+    nav h1 {
+      margin: 0;
+      font-size: 30px;
+      font-weight: 900;
+      cursor: default;
+    }
+    nav ul {
+      list-style: none;
+      display: flex;
+      margin: 0;
+      padding: 0;
+    }
+    nav ul li {
+      margin-left: 30px;
+      position: relative;
+    }
+    nav ul li a {
+      color: #d1c4e9;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 18px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: color 0.3s ease;
+      cursor: pointer;
+    }
+    nav ul li a:hover {
+      color: #f3e8ff;
+      text-decoration: underline;
+    }
+    nav ul li a .fa-solid {
+      font-size: 18px;
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <h1>E-Commerce</h1>
+    <ul>
+      <li><a href="dashboard.html">Home</a></li>
+      <li><a href="produk.html">Produk</a></li>
+      <li><a href="keranjang.html">Keranjang</a></li>
+      <li><a href="#" onclick="logout()">Logout</a></li>
+    </ul>
+  </nav>
+
+  <div class="container">
+    <h2>Keranjang Belanja Anda</h2>
+    <div id="cart-container">
+      <!-- Isi keranjang akan muncul di sini -->
+    </div>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-app.js";
+    import { getAuth, signOut } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyAHD4kQzHQZuHOzQNS76ef2XGgZGzwhzhg",
+      authDomain: "ecommerce-web-35f10.firebaseapp.com",
+      projectId: "ecommerce-web-35f10",
+      storageBucket: "ecommerce-web-35f10.appspot.com",
+      messagingSenderId: "618504801619",
+      appId: "1:618504801619:web:2934145fc56353f9e6a5a6",
+      measurementId: "G-2MV1SM5RCH"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    window.logout = async function () {
+      await signOut(auth);
+      alert("Anda telah logout.");
+      window.location.href = "index.html"; // kembali ke halaman login
+    };
+
+    // Fungsi format ke Rupiah
+    function formatRupiah(angka) {
+      return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(angka);
+    }
+
+    // Ambil data keranjang dari localStorage
+    function getCart() {
+      const cart = localStorage.getItem('cart');
+      return cart ? JSON.parse(cart) : [];
+    }
+
+    // Simpan data keranjang ke localStorage
+    function saveCart(cart) {
+      localStorage.setItem('cart', JSON.stringify(cart));
+    }
+
+    // Hapus produk dari keranjang
+    function removeFromCart(id) {
+      let cart = getCart();
+      cart = cart.filter(item => item.id !== id);
+      saveCart(cart);
+      displayCart();
+    }
+
+    // Tampilkan keranjang
+    function displayCart() {
+      const cart = getCart();
+      const container = document.getElementById('cart-container');
+
+      if (cart.length === 0) {
+        container.innerHTML = `<p class="empty-cart">Keranjang Anda kosong.</p>`;
+        return;
+      }
+
+      let html = `
+        <table>
+          <thead>
+            <tr>
+              <th>Produk</th>
+              <th>Harga</th>
+              <th>Jumlah</th>
+              <th>Subtotal</th>
+              <th>Aksi</th>
+            </tr>
+          </thead>
+          <tbody>
+      `;
+
+      let total = 0;
+      cart.forEach(item => {
+        const subtotal = item.price * item.quantity;
+        total += subtotal;
+        html += `
+          <tr>
+            <td>${item.name}</td>
+            <td>${formatRupiah(item.price)}</td>
+            <td>${item.quantity}</td>
+            <td>${formatRupiah(subtotal)}</td>
+            <td><button class="btn-remove" onclick="removeFromCart(${item.id})">Hapus</button></td>
+          </tr>
+        `;
+      });
+
+      html += `
+          </tbody>
+        </table>
+        <div class="total">Total: ${formatRupiah(total)}</div>
+        <button class="btn-checkout" onclick="checkout()">Checkout</button>
+      `;
+
+      container.innerHTML = html;
+    }
+
+    // Fungsi checkout (sementara hanya alert)
+    function checkout() {
+      alert("Terima kasih telah melakukan pembelian!");
+      localStorage.removeItem('cart');
+      displayCart();
+    }
+
+    window.removeFromCart = removeFromCart;
+    window.checkout = checkout;
+
+    displayCart();
+  </script>
+</body>
+</html>

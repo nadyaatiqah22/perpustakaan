@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Dashboard - E-Commerce Toko Ebook</title>
+
+  <!-- Font Awesome untuk icon -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+  />
+
+  <style>
+    /* Reset & base */
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #e0d7f9, #9b7fd6);
+      color: #3c1361;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    nav {
+      background: linear-gradient(90deg, #5a2d82, #7b4eff);
+      padding: 18px 40px;
+      color: #fff;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 5px 15px rgba(123,78,255,0.5);
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      font-size: 20px;
+    }
+    nav h1 {
+      margin: 0;
+      font-size: 30px;
+      font-weight: 900;
+      cursor: default;
+    }
+    nav ul {
+      list-style: none;
+      display: flex;
+      margin: 0;
+      padding: 0;
+    }
+    nav ul li {
+      margin-left: 30px;
+      position: relative;
+    }
+    nav ul li a {
+      color: #d1c4e9;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 18px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: color 0.3s ease;
+      cursor: pointer;
+    }
+    nav ul li a:hover {
+      color: #f3e8ff;
+      text-decoration: underline;
+    }
+    nav ul li a .fa-solid {
+      font-size: 18px;
+    }
+
+    /* Container utama */
+    .container {
+      max-width: 1100px;
+      margin: 50px auto 60px;
+      padding: 0 25px;
+      flex-grow: 1;
+      text-align: center;
+    }
+
+    /* Sambutan */
+    .welcome {
+      background: linear-gradient(135deg, #a084ca, #6d4bb9);
+      color: white;
+      padding: 35px 25px;
+      border-radius: 20px;
+      box-shadow: 0 12px 30px rgba(123,78,255,0.6);
+      margin-bottom: 60px;
+      font-size: 24px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      user-select: none;
+    }
+    .welcome strong {
+      color: #f3e8ff;
+      font-weight: 900;
+    }
+
+    /* Grid ringkasan */
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 35px;
+    }
+
+    /* Card */
+    .card {
+      background: linear-gradient(145deg, #fff, #dcd6f7);
+      border-radius: 20px;
+      padding: 40px 30px;
+      box-shadow: 0 6px 18px rgba(123,78,255,0.25);
+      transition: box-shadow 0.4s ease, transform 0.4s ease;
+      cursor: default;
+      color: #5a2d82;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 18px;
+    }
+    .card:hover {
+      box-shadow: 0 20px 50px rgba(123,78,255,0.55);
+      transform: translateY(-8px);
+    }
+
+    .card .icon {
+      font-size: 54px;
+      color: #7b4eff;
+      background: linear-gradient(135deg, #b4a0f9, #7b4eff);
+      padding: 18px;
+      border-radius: 50%;
+      box-shadow: 0 4px 15px rgba(123,78,255,0.45);
+      transition: background 0.3s ease, color 0.3s ease;
+    }
+    .card:hover .icon {
+      background: linear-gradient(135deg, #9579f7, #5214cc);
+      color: #e3dfff;
+    }
+
+    .card h3 {
+      margin: 0;
+      font-weight: 800;
+      font-size: 26px;
+      letter-spacing: 1.1px;
+      user-select: none;
+    }
+    .card p {
+      font-size: 22px;
+      margin: 0;
+      font-weight: 700;
+      color: #6a49a3;
+      user-select: none;
+    }
+
+    /* Tombol logout */
+    .logout-btn {
+      background: linear-gradient(90deg, #8e44ad, #6c3483);
+      color: white;
+      border: none;
+      padding: 14px 36px;
+      font-size: 20px;
+      cursor: pointer;
+      border-radius: 12px;
+      font-weight: 800;
+      margin-top: 60px;
+      box-shadow: 0 8px 30px rgba(110,44,135,0.65);
+      transition: background 0.4s ease;
+      user-select: none;
+    }
+    .logout-btn:hover {
+      background: linear-gradient(90deg, #6c3483, #4b1f5a);
+      box-shadow: 0 10px 40px rgba(75,31,90,0.9);
+    }
+
+    /* Responsive kecil */
+    @media (max-width: 480px) {
+      nav {
+        flex-direction: column;
+        gap: 15px;
+        font-size: 18px;
+      }
+      nav ul {
+        justify-content: center;
+      }
+      .container {
+        margin: 30px 15px 40px;
+        padding: 0 15px;
+      }
+      .welcome {
+        font-size: 20px;
+        padding: 25px 15px;
+      }
+      .card h3 {
+        font-size: 22px;
+      }
+      .card p {
+        font-size: 18px;
+      }
+      .logout-btn {
+        font-size: 18px;
+        padding: 12px 28px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <h1>E-Commerce Toko Ebook</h1>
+    <ul>
+      <li><a href="dashboard.html"><i class="fa-solid fa-house"></i> Home</a></li>
+      <li><a href="produk.html"><i class="fa-solid fa-book"></i> Ebook</a></li>
+      <li><a href="keranjang.html"><i class="fa-solid fa-cart-shopping"></i> Keranjang</a></li>
+      <li><a href="#" onclick="logout()"><i class="fas fa-right-from-bracket"></i>Logout</a></li>
+    </ul>
+  </nav>
+
+  <div class="container">
+    <div class="welcome">
+      Selamat datang di Dashboard, <strong>E-book!</strong> Siap menjual buku-buku online keren hari ini!
+    </div>
+
+    <div class="summary-grid">
+      <div class="card">
+        <div class="icon"><i class="fa-solid fa-book"></i></div>
+        <h3>Ebook Tersedia</h3>
+        <p>120+</p>
+      </div>
+      <div class="card">
+        <div class="icon"><i class="fa-solid fa-cart-shopping"></i></div>
+        <h3>Ebook dalam Keranjang</h3>
+        <p id="cart-count">0</p>
+      </div>
+      <div class="card">
+        <div class="icon"><i class="fa-solid fa-download"></i></div>
+        <h3>Ebook Terunduh</h3>
+        <p>50</p>
+      </div>
+      <div class="card">
+        <div class="icon"><i class="fa-solid fa-star"></i></div>
+        <h3>Ebook Favorit</h3>
+        <p>15</p>
+      </div>
+    </div>
+
+    <button class="logout-btn" onclick="logout()"><i class="fa-solid fa-right-from-bracket"></i> Logout</button>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-app.js";
+    import { getAuth, signOut } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyAHD4kQzHQZuHOzQNS76ef2XGgZGzwhzhg",
+      authDomain: "ecommerce-web-35f10.firebaseapp.com",
+      projectId: "ecommerce-web-35f10",
+      storageBucket: "ecommerce-web-35f10.appspot.com",
+      messagingSenderId: "618504801619",
+      appId: "1:618504801619:web:2934145fc56353f9e6a5a6",
+      measurementId: "G-2MV1SM5RCH"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    window.logout = async function () {
+      await signOut(auth);
+      alert("Anda telah logout.");
+      window.location.href = "index.html";
+    };
+
+    // Ambil data keranjang dari localStorage dan update count
+    function updateCartCount() {
+      let cart = localStorage.getItem('cart');
+      cart = cart ? JSON.parse(cart) : [];
+      const count = cart.reduce((acc, item) => acc + item.quantity, 0);
+      document.getElementById('cart-count').textContent = count;
+    }
+
+    updateCartCount();
+  </script>
+</body>
+</html>
